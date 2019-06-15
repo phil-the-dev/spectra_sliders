@@ -20,6 +20,13 @@ module.exports = {
         name: 'sliders'
       }
     },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        path: `${__dirname}/src/components/categories`,
+        name: 'category'
+      }
+    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {

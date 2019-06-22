@@ -5,9 +5,44 @@
  */
 
 // You can delete this file if you're not using it
-exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
-  if (node.internal.type === 'MarkdownRemark') {
-    const { createNodeField } = boundActionCreators;
+exports.onCreateNode = ({ node, getNode }) => {
+  if (node.internal.type === `MarkdownRemark` || node.internal.type === `Mdx`) {
     node.collection = getNode(node.parent).sourceInstanceName;
   }
+}
+
+exports.createPages = ({ graphql, actions }) => {
+  const { createPage } = actions
+  return new Promise((resolve, reject) => {
+    resolve(
+      graphql(
+        `
+          {
+            posts: allMarkdownRemark {
+              edges {
+                node {
+                  fields {
+                    slug
+                  }
+                }
+              }
+            }
+          }
+        `
+      ).then(result => {
+        const path = require(`path`)
+        const postTemplate = path.resolve("./src/components/templates/slider-post.js")
+        const posts = result.data.posts.edges
+        posts.forEach(post => {
+          createPage({
+            path: post.node.fields.slug,
+            component: postTemplate,
+            context: {
+              slug: post.node.fields.slug,
+            },
+          })
+        })
+      })
+    )
+  })
 }

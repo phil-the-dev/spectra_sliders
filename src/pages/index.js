@@ -5,7 +5,6 @@ import Img from "gatsby-image";
 
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
 const IndexPage = () => (
@@ -29,7 +28,7 @@ const SliderCategories = () => (
               title,
               image {
                 childImageSharp {
-                  resize(width: 1500, height: 1500) {
+                  resize(width: 150, height: 150) {
                     src
                   }
                   fluid(maxWidth: 786) {

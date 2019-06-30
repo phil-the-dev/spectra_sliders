@@ -1,13 +1,14 @@
 ---
 title: 'M81 and M82'
 category: 'Galaxies'
-images: [ 
+base_image:  
   {
-    img: ./infrared.jpg,
+    img: ./visible.jpg,
     wavelength: visible,
     description: this is visible,
     credits: NASA/JPL-Caltech/UCLA.
-  },
+  }
+images: [ 
   {
     img: ./infrared.jpg,
     wavelength: visible,

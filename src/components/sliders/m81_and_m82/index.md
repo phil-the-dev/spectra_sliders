@@ -5,15 +5,15 @@ base_image:
   {
     img: ./visible.jpg,
     wavelength: visible,
-    description: this is visible,
-    credits: NASA/JPL-Caltech/UCLA.
+    description: The galaxies are of similar brightness in visible light.,
+    credit: NASA/JPL-Caltech/UCLA.
   }
 images: [ 
   {
     img: ./infrared.jpg,
-    wavelength: visible,
-    description: this is not visible,
-    credits: NASA/JPL-Caltech/UCLA.
+    wavelength: infrared,
+    description: The starburst in M82 is blindingly bright in the infrared.,
+    credit: NASA/JPL-Caltech/UCLA.
   }
 ]
 ---

@@ -15,40 +15,68 @@ const sliderStyle = {
 class SliderPostTemplate extends React.Component {
   constructor(props) {
     super(props)
+    const { post } = this.props.data
+    const post_data = post.frontmatter;
+    let opacities = {};
+
+    post_data.images.map((i) => {
+      opacities[i.wavelength] = 0;
+    });
+    console.log(opacities)
     this.state = {
-      opacity: 100
+      opacities
     }
   }
 
-  SliderChange = (event) => {
+  SliderChange = (event, wavelength) => {
+    let opec = this.state.opacities;
+    opec[wavelength] = event
     this.setState({
-      opacity: event
+      opacities: opec
     })
   }
 
   render() {
     const { post } = this.props.data
 
-    let opac = this.state.opacity;
+    let opac = this.state.opacities;
+    let post_data = post.frontmatter;
     return (
-      <div>
-        <h1>{post.frontmatter.title}</h1>
-        <div className="slider">
+      <div className="slider" style={{ height: window.innerHeight }}>
+        <h1>{post_data.title}</h1>
+        <div>
           <div className="slider-body">
-            <Img fluid={post.frontmatter.base_image.img.childImageSharp.fluid} />
-            {post.frontmatter.images.map((i) => {
+            <Img fluid={post_data.base_image.img.childImageSharp.fluid} />
+            {post_data.images.map((i) => {
+
               return (
                 <Img
                   className='slide'
                   fluid={i.img.childImageSharp.fluid}
-                  style={{ opacity: opac / 100, ...sliderStyle }}
+                  style={{ opacity: opac[i.wavelength] / 100, ...sliderStyle }}
                 />
               )
             })}
           </div>
+
+          <Slider onChange={e => this.SliderChange(e, 'infrared')} />
         </div>
-        <Slider onChange={this.SliderChange.bind(this)} />
+        <h2>{post_data.title}</h2>
         {/* <div dangerouslySetInnerHTML={{ __html: post.html }} /> */}
+        {post_data.images.map((i) => {
+          return (
+            <p>
+              <strong>{i.wavelength}:</strong>
+              {i.description}
+              <br />
+              <small>
+                <em>
+                  {i.credit}
+                </em>
+              </small>
+            </p>
+          )
+        })}
       </div>
     )
   }
@@ -57,31 +85,33 @@ class SliderPostTemplate extends React.Component {
 export default SliderPostTemplate
 
 export const pageQuery = graphql`
-    query PostBySlug($slug: String!) {
-        post: markdownRemark(fields: {slug: {eq: $slug}}) {
-            html
-            frontmatter {
-                title
-                images{
-                  img{
-                    childImageSharp {
-                      fluid(maxWidth: 550) {
-                        ...GatsbyImageSharpFluid
-                      }
-                    }
-                  }
-                  description
-                }
-                base_image {
-                  img {
-                    childImageSharp {
-                      fluid(maxWidth: 786) {
-                        ...GatsbyImageSharpFluid
-                      }
-                    }
-                  }
-                }
+  query PostBySlug($slug: String!) {
+    post: markdownRemark(fields: {slug: {eq: $slug}}) {
+      html
+      frontmatter {
+        title
+        images {
+          img {
+            childImageSharp {
+              fluid(maxWidth: 550) {
+                ...GatsbyImageSharpFluid
+              }
             }
+          }
+          description
+          wavelength
+          credit
         }
+        base_image {
+          img {
+            childImageSharp {
+              fluid(maxWidth: 786) {
+                ...GatsbyImageSharpFluid
+              }
+            }
+          }
+        }
+      }
     }
+  }
 `

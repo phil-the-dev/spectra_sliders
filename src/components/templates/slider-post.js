@@ -22,7 +22,6 @@ class SliderPostTemplate extends React.Component {
     post_data.images.map((i) => {
       opacities[i.wavelength] = 0;
     });
-    console.log(opacities)
     this.state = {
       opacities
     }
@@ -58,8 +57,12 @@ class SliderPostTemplate extends React.Component {
               )
             })}
           </div>
+          {post_data.images.map((i) => {
+            return (
+              <Slider onChange={e => this.SliderChange(e, i.wavelength)} />
+            )
+          })}
 
-          <Slider onChange={e => this.SliderChange(e, 'infrared')} />
         </div>
         <h2>{post_data.title}</h2>
         {/* <div dangerouslySetInnerHTML={{ __html: post.html }} /> */}

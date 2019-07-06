@@ -43,6 +43,8 @@ class SliderPostTemplate extends React.Component {
     let first_image = post_data.images[0];
     let second_image = post_data.images[1];
 
+    let label_styles = { width: '50%', display: 'inline-block', float: 'left' }
+
     return (
       <div className="slider" style={{ height: window.innerHeight }}>
         <h1>{post_data.title}</h1>
@@ -58,16 +60,31 @@ class SliderPostTemplate extends React.Component {
               style={{ opacity: opac / 100, ...sliderStyle }}
             />
           </div>
+          <div>
+            <div style={label_styles}>
+              {first_image.wavelength}
+            </div>
+            <div style={{ textAlign: 'right', ...label_styles }}>
+              {second_image.wavelength}
+            </div>
+          </div>
+          <div style={{ clear: 'both' }}></div>
           <Slider onChange={e => this.SliderChange(e)} />
         </div>
-        <h2>{post_data.title}</h2>
-        {/* <div dangerouslySetInnerHTML={{ __html: post.html }} /> */}
+        <div>
+          <div style={label_styles}>
+            {first_image.description}
+          </div>
+          <div style={{ textAlign: 'right', ...label_styles }}>
+            {second_image.description}
+          </div>
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        Credits:
         {post_data.images.map((i) => {
           return (
             <p>
               <strong>{i.wavelength}:</strong>
-              {i.description}
-              <br />
               <small>
                 <em>
                   {i.credit}

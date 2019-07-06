@@ -1,14 +1,13 @@
 ---
 title: 'M81 and M82'
 category: 'Galaxies'
-base_image:  
+images: [ 
   {
     img: ./visible.jpg,
     wavelength: visible,
     description: The galaxies are of similar brightness in visible light.,
     credit: NASA/JPL-Caltech/UCLA.
-  }
-images: [ 
+  },
   {
     img: ./infrared.jpg,
     wavelength: infrared,

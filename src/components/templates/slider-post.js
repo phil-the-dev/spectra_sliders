@@ -4,6 +4,7 @@ import Img from "gatsby-image";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './slider-post.scss'
+import SliderImage from '../slider-image'
 
 const sliderStyle = {
   position: 'absolute',
@@ -27,42 +28,37 @@ class SliderPostTemplate extends React.Component {
     }
   }
 
-  SliderChange = (event, wavelength) => {
-    let opec = this.state.opacities;
-    opec[wavelength] = event
+  SliderChange = (event) => {
     this.setState({
-      opacities: opec
+      ...this.state,
+      opacity: event
     })
   }
 
   render() {
     const { post } = this.props.data
 
-    let opac = this.state.opacities;
+    let opac = this.state.opacity;
     let post_data = post.frontmatter;
+    let first_image = post_data.images[0];
+    let second_image = post_data.images[1];
+
     return (
       <div className="slider" style={{ height: window.innerHeight }}>
         <h1>{post_data.title}</h1>
         <div>
           <div className="slider-body">
-            <Img fluid={post_data.base_image.img.childImageSharp.fluid} />
-            {post_data.images.map((i) => {
-
-              return (
-                <Img
-                  className='slide'
-                  fluid={i.img.childImageSharp.fluid}
-                  style={{ opacity: opac[i.wavelength] / 100, ...sliderStyle }}
-                />
-              )
-            })}
+            <SliderImage
+              className='slide'
+              img={first_image.img.childImageSharp.fluid}
+            />
+            <SliderImage
+              className='slide'
+              img={second_image.img.childImageSharp.fluid}
+              style={{ opacity: opac / 100, ...sliderStyle }}
+            />
           </div>
-          {post_data.images.map((i) => {
-            return (
-              <Slider onChange={e => this.SliderChange(e, i.wavelength)} />
-            )
-          })}
-
+          <Slider onChange={e => this.SliderChange(e)} />
         </div>
         <h2>{post_data.title}</h2>
         {/* <div dangerouslySetInnerHTML={{ __html: post.html }} /> */}
@@ -104,15 +100,6 @@ export const pageQuery = graphql`
           description
           wavelength
           credit
-        }
-        base_image {
-          img {
-            childImageSharp {
-              fluid(maxWidth: 786) {
-                ...GatsbyImageSharpFluid
-              }
-            }
-          }
         }
       }
     }

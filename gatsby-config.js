@@ -16,14 +16,14 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: `${__dirname}/src/components/sliders`,
+        path: `${__dirname}/src/content/sliders`,
         name: 'sliders'
       }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        path: `${__dirname}/src/components/categories`,
+        path: `${__dirname}/src/content/categories`,
         name: 'category'
       }
     },

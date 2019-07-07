@@ -3,8 +3,8 @@ import { graphql } from 'gatsby'
 import Img from "gatsby-image";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import './slider-post.scss'
-import SliderImage from '../slider-image'
+import './post.scss'
+import SliderImage from '../../components/slider-image'
 
 const sliderStyle = {
   position: 'absolute',

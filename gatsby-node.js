@@ -36,7 +36,7 @@ exports.createPages = ({ graphql, actions }) => {
         `
       ).then(result => {
         const path = require(`path`)
-        const postTemplate = path.resolve("./src/components/templates/slider-post.js")
+        const postTemplate = path.resolve("./src/pages/slider/post.js")
 
         const posts = result.data.posts.edges
         posts.forEach(post => {

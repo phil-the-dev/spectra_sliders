@@ -11,6 +11,8 @@ exports.onCreateNode = ({ node, getNode }) => {
   }
 }
 
+
+// Need to figure out what's generated? https://www.gatsbyjs.org/docs/creating-and-modifying-pages/#debugging-help
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions
   return new Promise((resolve, reject) => {
@@ -24,6 +26,9 @@ exports.createPages = ({ graphql, actions }) => {
                   fields {
                     slug
                   }
+                  frontmatter{
+                    category
+                  }
                 }
               }
             }
@@ -32,10 +37,12 @@ exports.createPages = ({ graphql, actions }) => {
       ).then(result => {
         const path = require(`path`)
         const postTemplate = path.resolve("./src/components/templates/slider-post.js")
+
         const posts = result.data.posts.edges
         posts.forEach(post => {
+          const frontmatter = post.node.frontmatter;
           createPage({
-            path: post.node.fields.slug,
+            path: frontmatter.category.toLowerCase() + post.node.fields.slug,
             component: postTemplate,
             context: {
               slug: post.node.fields.slug,

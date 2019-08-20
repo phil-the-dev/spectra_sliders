@@ -16,15 +16,9 @@ const sliderStyle = {
 class SliderPostTemplate extends React.Component {
   constructor(props) {
     super(props)
-    const { post } = this.props.data
-    const post_data = post.frontmatter;
-    let opacities = {};
 
-    post_data.images.map((i) => {
-      opacities[i.wavelength] = 0;
-    });
     this.state = {
-      opacities
+      opacity: 0
     }
   }
 
@@ -57,7 +51,7 @@ class SliderPostTemplate extends React.Component {
             <SliderImage
               className='slide'
               img={second_image.img.childImageSharp.fluid}
-              style={{ opacity: opac / 100, ...sliderStyle }}
+              style={{ opacity: this.state.opacity / 100, ...sliderStyle }}
             />
           </div>
           <div>
@@ -83,14 +77,14 @@ class SliderPostTemplate extends React.Component {
         Credits:
         {post_data.images.map((i) => {
           return (
-            <p>
+            <div>
               <strong>{i.wavelength}:</strong>
               <small>
                 <em>
                   {i.credit}
                 </em>
               </small>
-            </p>
+            </div>
           )
         })}
       </div>
@@ -102,23 +96,23 @@ export default SliderPostTemplate
 
 export const pageQuery = graphql`
   query PostBySlug($slug: String!) {
-    post: markdownRemark(fields: {slug: {eq: $slug}}) {
-      html
+                post: markdownRemark(fields: {slug: {eq: $slug}}) {
+                html
       frontmatter {
-        title
+                title
         images {
-          img {
-            childImageSharp {
-              fluid(maxWidth: 550) {
+                img {
+              childImageSharp {
+                fluid(maxWidth: 550) {
                 ...GatsbyImageSharpFluid
               }
+              }
             }
+            description
+            wavelength
+            credit
           }
-          description
-          wavelength
-          credit
         }
       }
     }
-  }
-`
+  `
